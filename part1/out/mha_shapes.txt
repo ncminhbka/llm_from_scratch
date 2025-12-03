@@ -1,0 +1,10 @@
+Input x:           (1, 5, 12) = (B,T,d_model)
+Linear qkv(x):     (1, 5, 36) = (B,T,3*d_model)
+Reshape qkv:       (1, 5, 3, 3, 4) = (B,T,3,n_head,d_head)
+Unbind q,k,v:      (1, 5, 3, 4) = (B,T,n_head,d_head) each
+Transpose q,k,v:   (1, 3, 5, 4) = (B,n_head,T,d_head) each
+scores q@k^T:      (1, 3, 5, 5) = (B,heads,T,T)
+softmax(scores):   (1, 3, 5, 5) = (B,heads,T,T)
+weights@v:        (1, 3, 5, 4) = (B,heads,T,d_head)
+merge heads:       (1, 5, 12) = (B,T,d_model)
+out_proj:          (1, 5, 12) = (B,T,d_model)
